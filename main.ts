@@ -22,7 +22,16 @@ const params = new URLSearchParams({
 const url = `https://api-free.deepl.com/v2/translate`;
 const res = await fetch(`${url}?${params}`);
 
-const body = new Uint8Array(await res.arrayBuffer());
+const json = await res.json();
+const translated = json.translations[0].text;
 
-// TODO: 結果のパース
-await Deno.stdout.write(body);
+const outputForAlfred = {
+  items: [
+    {
+      arg: translated,
+      title: translated,
+    },
+  ],
+};
+
+console.log(JSON.stringify(outputForAlfred));
