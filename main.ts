@@ -30,6 +30,7 @@ const outputForAlfred = {
     {
       arg: translated,
       title: translated,
+      subtitle: translated,
     },
   ],
 };
