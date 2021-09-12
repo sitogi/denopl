@@ -11,15 +11,14 @@ try {
     throw new Error("environment variable DEEPL_API_KEY is not specified!");
   }
 
-  const params = new URLSearchParams({
-    auth_key: apiKey,
-    text: parsedArgs.m,
-    target_lang: parsedArgs.t ?? "EN",
-  });
-
-  // TODO: クエリパラメータ指定じゃなくてちゃんと Body でできないの？ 漏洩するけど
   const url = `https://api-free.deepl.com/v2/translate`;
-  const res = await fetch(`${url}?${params}`);
+
+  const formData = new FormData();
+  formData.set("auth_key", apiKey);
+  formData.set("text", parsedArgs.m);
+  formData.set("target_lang", parsedArgs.t ?? "EN");
+
+  const res = await fetch(url, { method: "POST", body: formData });
 
   const json = await res.json();
   const translated = json.translations[0].text;
